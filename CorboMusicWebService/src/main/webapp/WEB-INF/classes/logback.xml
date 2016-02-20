@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration scan="true">
+	<appender name="WS"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+		<File>${catalina.base}/logs/music.log</File>
+		<Append>true</Append>
+		<encoder>
+			<!-- This pattern right pads the level to 5 chars, right pads/truncs the 
+				thread to 17 chars and left pads/truncs the path to 32 chars(which is also 
+				processed to remove extra chars from the package names) -->
+			<pattern>%d{ISO8601} %-17.17t %-5level %32.32logger{32} - %m%n
+			</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<maxIndex>10</maxIndex>
+			<FileNamePattern>${catalina.base}/logs/music.log.%i.gz</FileNamePattern>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>10MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<logger name="com.corbo" level="TRACE" />
+	<root level="DEBUG">
+		<appender-ref ref="WS" />
+	</root>
+</configuration>
