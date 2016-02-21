@@ -34,6 +34,7 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-cassandra</artifactId>
 			<exclusions>
+			<!-- MUST LEAVE OUT THIS DEPENDENCY. WILL SCREW UP EVERYTHING! -->
 				<exclusion>
 					<artifactId>metrics-core</artifactId>
 					<groupId>com.codahale.metrics</groupId>
