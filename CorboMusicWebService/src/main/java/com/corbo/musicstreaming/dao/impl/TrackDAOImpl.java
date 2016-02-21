@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.corbo.musicstreaming.dao.TrackDAO;
-import com.corbo.musicstreaming.database.CassandraConnector;
+import com.corbo.musicstreaming.database.CassandraService;
 import com.corbo.musicstreaming.vo.Album;
 import com.corbo.musicstreaming.vo.Artist;
 import com.corbo.musicstreaming.vo.Track;
@@ -14,8 +14,8 @@ import com.corbo.musicstreaming.vo.Track;
 @Controller
 public class TrackDAOImpl implements TrackDAO {
 	
-//	@Autowired
-	private CassandraConnector cassandraConnector;
+	@Autowired
+	private CassandraService cassandraConnector;
 
 	@Override
 	public Track getTrack(String trackUuid) {

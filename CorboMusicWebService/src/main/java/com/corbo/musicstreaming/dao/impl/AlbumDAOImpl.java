@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.corbo.musicstreaming.dao.AlbumDAO;
-import com.corbo.musicstreaming.database.CassandraConnector;
+import com.corbo.musicstreaming.database.CassandraService;
 import com.corbo.musicstreaming.exceptions.AlbumNotFoundException;
 import com.corbo.musicstreaming.vo.Album;
 import com.corbo.musicstreaming.vo.Artist;
@@ -27,8 +27,8 @@ public class AlbumDAOImpl implements AlbumDAO {
 	final String queryForAlbumUuid = "select albumuuid, albumname, albumyear, artistuuid from artists where artistuuid = ?";
 	final String queryAlbumsForArtist = "select albumuuid, albumname, albumyear, artistuuid from artists where artistuuid = ?";
 
-//	@Autowired
-	private CassandraConnector cassandraConnector;
+	@Autowired
+	private CassandraService cassandraConnector;
 
 	@Override
 	public Album getAlbum(String albumUuid) throws AlbumNotFoundException {

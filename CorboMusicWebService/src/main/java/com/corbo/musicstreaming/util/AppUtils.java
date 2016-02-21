@@ -5,8 +5,6 @@ import java.util.UUID;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 
-import com.datastax.driver.core.utils.UUIDs;
-
 public class AppUtils {
 	
 	public static void logError(Logger logger, Exception e) {
@@ -14,9 +12,6 @@ public class AppUtils {
 	}
 	
 	public static UUID generateUuid() {
-		return UUIDs.timeBased();
+		return UUID.randomUUID();
 	}
-	
-	
-
 }

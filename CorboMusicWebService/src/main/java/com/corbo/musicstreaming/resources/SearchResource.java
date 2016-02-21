@@ -22,6 +22,7 @@ public class SearchResource {
 
 	@RequestMapping(value = "/artist/{artist}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MusicList> searchForArtist(@PathVariable("artist") String artist) {
+		System.out.println("TEST");
 		CallResult<MusicList> callResult = searchManager.searchForArtist(artist);
 		return new ResponseEntity<MusicList>(callResult.getResultObject(), HttpStatus.OK);
 	}

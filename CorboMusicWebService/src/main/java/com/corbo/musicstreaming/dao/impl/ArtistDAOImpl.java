@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.corbo.musicstreaming.dao.ArtistDAO;
-import com.corbo.musicstreaming.database.CassandraConnector;
+import com.corbo.musicstreaming.database.CassandraService;
 import com.corbo.musicstreaming.exceptions.AddArtistException;
 import com.corbo.musicstreaming.exceptions.ArtistNotFoundException;
 import com.corbo.musicstreaming.vo.Artist;
@@ -31,18 +31,19 @@ public class ArtistDAOImpl implements ArtistDAO {
 	final String searchForArtistQuery = "select artistuuid, artistname from artists where artistname = ?";
 	final String deleteArtistQuery = "delete from artists where artistname = ?";
 
-//	@Autowired
-	private CassandraConnector cassandraConnector;
+	@Autowired
+	private CassandraService cassandraConnector;
 
 	@Override
 	public Artist getArtist(String artistUuid) throws ArtistNotFoundException {
+		logger.error("CassandraNull?"+(cassandraConnector != null));
 		ResultSet rs = null;
 		String logDebugId = CLASS_NAME + " in getArtist(" + artistUuid + ")";
 		logger.debug("{} Method starts.", logDebugId);
 		try {
 			rs = cassandraConnector.getSession().execute(queryForArtistUuid, artistUuid);
 			if (rs != null) {
-				final Row artistRow = rs.one();
+				final Row artistRow = null;
 				final Optional<Artist> artist = artistRow != null
 						? Optional.of((new Artist.Builder()
 								.artistName(artistRow.getString("artistname"))
@@ -101,7 +102,7 @@ public class ArtistDAOImpl implements ArtistDAO {
 	@Override
 	public Artist searchForArtist(String artistName) throws ArtistNotFoundException {
 		ResultSet rs = null;
-		String logDebugId = CLASS_NAME + " in v(" + artistName + ")";
+		String logDebugId = CLASS_NAME + " in (" + artistName + ")";
 		logger.debug("{} Method starts.", logDebugId);
 		try {
 			rs = cassandraConnector.getSession().execute(searchForArtistQuery, artistName);
@@ -119,11 +120,14 @@ public class ArtistDAOImpl implements ArtistDAO {
 					return artist.get();
 				} else {
 					logger.error("{} Uh oh. We can't seem to find the artist :/", logDebugId);
+					System.err.println("No artist");
 				}
 			}
+			System.out.println("TEST");
 		} catch (Exception e) {
 			logger.error("{} There was an error when searching for the artist via the uuid >:l", logDebugId);
 			logger.error("{} Excpetion: {}", logDebugId, ExceptionUtils.getFullStackTrace(e));
+			System.out.println("Exception: "+e);
 		}
 		throw new ArtistNotFoundException();
 	}
