@@ -3,6 +3,6 @@
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <logger name="org.springframework" level="ERROR"/>
     <logger name="org.apache" level="ERROR" />
-    <logger name="com.datastax" level="ERROR" />
+    <logger name="com.datastax" level="DEBUG" />
     <logger name="com.corbo" level="TRACE" />
 </configuration>
