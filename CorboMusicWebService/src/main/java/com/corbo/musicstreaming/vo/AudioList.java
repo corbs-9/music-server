@@ -6,13 +6,25 @@ import java.util.Set;
 
 import com.corbo.musicstreaming.filesystem.Directory;
 
+/**
+ * <p>
+ * A class which represents a list of audio files which reside on the HDD.
+ * </p>
+ * 
+ * <p>
+ * Feed the constructor with a directory and it will populate 
+ * </p>
+ * 
+ * @author corbo
+ *
+ */
 public class AudioList {
 	
 	private Set<AudioFile> audioFileList;
-	private Set<String> musicList;
+	private Set<String> fileList;
 	
 	public AudioList(Directory dir) {
-		musicList = new HashSet<String>();
+		fileList = new HashSet<String>();
 		// only do so for root directory...
 		dir.getFiles().forEach(file -> handleFile(file));
 		dir.getChildDirectories().forEach(childDir -> handleFolder(childDir));
@@ -20,7 +32,7 @@ public class AudioList {
 	
 	private void handleFile(File file) {
 		if (file.getName().endsWith(".mp3")) {
-			musicList.add(file.getAbsolutePath());
+			fileList.add(file.getAbsolutePath());
 		}
 	}
 	
@@ -31,7 +43,7 @@ public class AudioList {
 	
 	public Set<AudioFile> getAudioFileList() {
 		audioFileList = new HashSet<AudioFile>();
-		musicList.forEach(musicFile -> {
+		fileList.forEach(musicFile -> {
 			audioFileList.add(new AudioFile(musicFile));
 		});
 		return audioFileList;

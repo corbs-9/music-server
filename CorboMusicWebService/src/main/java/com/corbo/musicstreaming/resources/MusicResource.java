@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import com.corbo.musicstreaming.database.Tasks;
 import com.corbo.musicstreaming.model.MusicManager;
 
 /**
@@ -22,9 +23,18 @@ public class MusicResource {
 	@Autowired
 	MusicManager musicManager;
 	
+	@Autowired
+	Tasks tasks;
+	
 	@RequestMapping(value = "/stream/track/{trackid}", method = RequestMethod.GET, produces = "audio/mpeg")
 	public ResponseEntity<StreamingResponseBody> streamAudio(@RequestHeader(value="Range", required=false) String range, @PathVariable(value="trackid") String trackId) {
 		return musicManager.buildStream(trackId, range);
+	}
+	
+	@RequestMapping(value = "/test")
+	public ResponseEntity<Void> test() {
+		tasks.synchroniseDataStore();
+		return ResponseEntity.notFound().build();
 	}
 
 }

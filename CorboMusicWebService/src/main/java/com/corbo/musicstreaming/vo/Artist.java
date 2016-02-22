@@ -2,40 +2,51 @@ package com.corbo.musicstreaming.vo;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+/**
+ * <p>
+ * Class representing an artist.
+ * </p>
+ * 
+ * @author corbo
+ *
+ */
 public class Artist {
-	
-	private String artistUuid;
-	private String artistName;
-	
+
+	private final String id;
+	private final String name;
+
 	private Artist(Builder builder) {
-		this.artistName = builder.artistName;
-		this.artistUuid = builder.artistUuid;
+		this.name = builder.name;
+		this.id = builder.id;
 	}
-	
+
 	public static class Builder {
-		private String artistUuid;
-		private String artistName;
-		public Builder artistUuid(String val) {
-			this.artistUuid = val;
+		private String id;
+		private String name;
+
+		public Builder id(String val) {
+			this.id = val;
 			return this;
 		}
-		public Builder artistName(String val) {
-			this.artistName = val;
+
+		public Builder name(String val) {
+			this.name = val;
 			return this;
 		}
+
 		public Artist build() {
 			return new Artist(this);
 		}
 	}
 
-	public String getArtistUuid() {
-		return new String(artistUuid);
+	public final String getId() {
+		return new String(id);
 	}
 
-	public String getArtistName() {
-		return new String(artistName);
+	public final String getName() {
+		return new String(name);
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

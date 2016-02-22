@@ -1,42 +1,50 @@
 package com.corbo.musicstreaming.vo;
 
+/**
+ * <p>
+ * Value object which represents an album.
+ * </p>
+ * 
+ * @author corbo
+ *
+ */
 public class Album {
 
 	private Album(Builder builder) {
-		this.albumUuid = builder.albumUuid;
-		this.artistUuid = builder.artistUuid;
-		this.albumName = builder.albumName;
-		this.albumYear = builder.albumYear;
+		this.id = builder.id;
+		this.artistId = builder.artistId;
+		this.name = builder.name;
+		this.year = builder.year;
 	}
 
-	private String albumUuid;
-	private String artistUuid;
-	private String albumName;
-	private int albumYear;
+	private String id;
+	private String artistId;
+	private String name;
+	private int year;
 
 	public static class Builder {
-		private String albumUuid;
-		private String artistUuid;
-		private String albumName;
-		private int albumYear;
+		private String id;
+		private String artistId;
+		private String name;
+		private int year;
 
-		public Builder albumUuid(String val) {
-			this.albumUuid = val;
+		public Builder id(String val) {
+			this.id = val;
 			return this;
 		}
 
-		public Builder artistUuid(String val) {
-			this.artistUuid = val;
+		public Builder artistId(String val) {
+			this.artistId = val;
 			return this;
 		}
 
-		public Builder albumName(String val) {
-			this.albumName = val;
+		public Builder name(String val) {
+			this.name = val;
 			return this;
 		}
 
-		public Builder albumYear(int val) {
-			this.albumYear = val;
+		public Builder year(int val) {
+			this.year = val;
 			return this;
 		}
 
@@ -45,19 +53,19 @@ public class Album {
 		}
 	}
 
-	public String getAlbumUuid() {
-		return new String(albumUuid);
+	public String getId() {
+		return id;
 	}
 
-	public String getArtistUuid() {
-		return new String(artistUuid);
+	public String getArtistId() {
+		return artistId;
 	}
 
-	public String getAlbumName() {
-		return new String(albumName);
+	public String getName() {
+		return name;
 	}
-	
-	public int getAlbumYear() {
-		return new Integer(albumYear);
+
+	public int getYear() {
+		return year;
 	}
 }

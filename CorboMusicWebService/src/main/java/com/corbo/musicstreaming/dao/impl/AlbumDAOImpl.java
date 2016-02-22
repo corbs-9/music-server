@@ -40,8 +40,8 @@ public class AlbumDAOImpl implements AlbumDAO {
 			if (rs != null && !rs.isExhausted()) {
 				final Row albumRow = rs.one();
 				Optional<Album> album = albumRow != null ? Optional.of((new Album.Builder()
-						.albumName(albumRow.getString("albumname")).albumUuid(albumRow.getUUID("albumuuid").toString())
-						.artistUuid(albumRow.getUUID("artistuuid").toString()).albumYear(albumRow.getInt("albumyear"))
+						.name(albumRow.getString("albumname")).id(albumRow.getUUID("albumuuid").toString())
+						.artistId(albumRow.getUUID("artistuuid").toString()).year(albumRow.getInt("albumyear"))
 						.build())) : Optional.empty();
 				if (album.isPresent()) {
 					logger.debug("{} Method ends successfully.", logDebugId);
@@ -61,7 +61,7 @@ public class AlbumDAOImpl implements AlbumDAO {
 		logger.debug("{} Method starts.", logDebugId);
 		try {
 			return createAlbumListFromRS(
-					cassandraConnector.getSession().execute(queryAlbumsForArtist, artist.getArtistUuid()));
+					cassandraConnector.getSession().execute(queryAlbumsForArtist, artist.getId()));
 		} catch (Exception e) {
 			logger.error("{} There was an error when searching for albums via the artistuuid >:l", logDebugId);
 			logger.error("{} Excpetion: {}", logDebugId, ExceptionUtils.getFullStackTrace(e));
@@ -89,10 +89,10 @@ public class AlbumDAOImpl implements AlbumDAO {
 			albumList = new ArrayList<Album>();
 			rs.forEach(albumEntry -> {
 				Album album = new Album.Builder()
-						.albumName(albumEntry.getString("albumname"))
-						.albumUuid(albumEntry.getUUID("albumuuid").toString())
-						.artistUuid(albumEntry.getUUID("artistuuid").toString())
-						.albumYear(albumEntry.getInt("albumyear"))
+						.name(albumEntry.getString("albumname"))
+						.id(albumEntry.getUUID("albumuuid").toString())
+						.artistId(albumEntry.getUUID("artistuuid").toString())
+						.year(albumEntry.getInt("albumyear"))
 						.build();
 				albumList.add(album);
 			});

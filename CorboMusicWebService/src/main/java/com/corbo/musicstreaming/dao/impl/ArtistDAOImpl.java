@@ -46,8 +46,8 @@ public class ArtistDAOImpl implements ArtistDAO {
 				final Row artistRow = null;
 				final Optional<Artist> artist = artistRow != null
 						? Optional.of((new Artist.Builder()
-								.artistName(artistRow.getString("artistname"))
-								.artistUuid(artistRow.getUUID("artistuuid").toString())
+								.name(artistRow.getString("artistname"))
+								.id(artistRow.getUUID("artistuuid").toString())
 								.build()))
 						: Optional.empty();
 				if (artist.isPresent()) {
@@ -110,8 +110,8 @@ public class ArtistDAOImpl implements ArtistDAO {
 				final Row artistRow = rs.one();
 				final Optional<Artist> artist = artistRow != null
 						? Optional.of((new Artist.Builder()
-								.artistName(artistRow.getString("artistname"))
-								.artistUuid(artistRow.getString("artistuuid"))
+								.name(artistRow.getString("artistname"))
+								.id(artistRow.getString("artistuuid"))
 								.build()))
 						: Optional.empty();
 				if (artist.isPresent()) {
@@ -138,7 +138,7 @@ public class ArtistDAOImpl implements ArtistDAO {
 		logger.debug("{} Method starts.", logDebugId);
 		try {
 			logger.trace("{} About to try and insert a record into the artists table...");
-			cassandraConnector.getSession().execute(insertArtist, UUID.fromString(artist.getArtistUuid()), artist.getArtistName(), artist.getArtistName().substring(0, 1).toUpperCase());
+			cassandraConnector.getSession().execute(insertArtist, UUID.fromString(artist.getId()), artist.getName(), artist.getName().substring(0, 1).toUpperCase());
 		} catch (Exception e) {
 			logger.error("{} Uh oh, there was an exception trying to insert a new artist!", logDebugId);
 			logger.error("{} Exception: {}", logDebugId, ExceptionUtils.getFullStackTrace(e));
@@ -152,8 +152,8 @@ public class ArtistDAOImpl implements ArtistDAO {
 		artistList = new ArrayList<Artist>();
 		rs.all().forEach(entry -> {
 			Artist artist = new Artist.Builder()
-					.artistName(entry.getString("artistname"))
-					.artistUuid(entry.getUUID("artistuuid").toString())
+					.name(entry.getString("artistname"))
+					.id(entry.getUUID("artistuuid").toString())
 					.build();
 			artistList.add(artist);
 			logger.debug(artist.toString());

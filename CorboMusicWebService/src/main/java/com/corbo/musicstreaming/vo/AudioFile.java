@@ -19,7 +19,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class AudioFile {
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public AudioFile(String fullFilePath) {
@@ -33,15 +33,17 @@ public class AudioFile {
 			input.close();
 
 			this.fullFilePath = fullFilePath;
-			trackName = metadata.get("title") != null ? WordUtils.capitalize(metadata.get("title").toLowerCase()) : "UNKNOWN_TRACK_NAME";
-			album = metadata.get("xmpDM:album") != null ? WordUtils.capitalize(metadata.get("xmpDM:album").toLowerCase())
-					: "UNKNOWN_ALBUM_MAME";
-			artist = metadata.get("xmpDM:artist") != null ? WordUtils.capitalize(metadata.get("xmpDM:artist").toLowerCase())
-					: "UNKNOWN_ARTIST_NAME";
-			logger.debug("**********************\n {}",artist);
-			trackNumber = metadata.get("xmpDM:trackNumber") != null ? metadata.get("xmpDM:trackNumber") : "NO_TRACK_NUMBER";
+			trackName = metadata.get("title") != null ? WordUtils.capitalize(metadata.get("title").toLowerCase())
+					: "UNKNOWN_TRACK_NAME";
+			album = metadata.get("xmpDM:album") != null
+					? WordUtils.capitalize(metadata.get("xmpDM:album").toLowerCase()) : "UNKNOWN_ALBUM_MAME";
+			artist = metadata.get("xmpDM:artist") != null
+					? WordUtils.capitalize(metadata.get("xmpDM:artist").toLowerCase()) : "UNKNOWN_ARTIST_NAME";
+			logger.debug("**********************\n {}", artist);
+			trackNumber = metadata.get("xmpDM:trackNumber") != null ? metadata.get("xmpDM:trackNumber")
+					: "NO_TRACK_NUMBER";
 			durationInMillis = Float.parseFloat(metadata.get("xmpDM:duration"));
-			
+
 			if (trackNumber.contains("/")) {
 				trackNumber = trackNumber.substring(0, trackNumber.indexOf("/"));
 			}
@@ -74,15 +76,15 @@ public class AudioFile {
 	public String getTrackName() {
 		return trackName;
 	}
-	
+
 	public String getTrackNumber() {
 		return this.trackNumber;
 	}
-	
+
 	public float getDurationInMillis() {
 		return durationInMillis;
 	}
-	
+
 	public String getFullFilePath() {
 		return this.fullFilePath;
 	}
