@@ -1,6 +1,9 @@
 package com.corbo.musicstreaming.vo;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.data.cassandra.mapping.Column;
+import org.springframework.data.cassandra.mapping.PrimaryKey;
+import org.springframework.data.cassandra.mapping.Table;
 
 /**
  * <p>
@@ -10,9 +13,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author corbo
  *
  */
+@Table(value = "artists")
 public class Artist {
 
+	@PrimaryKey
 	private final String id;
+	@Column(value = "name")
 	private final String name;
 
 	private Artist(Builder builder) {
