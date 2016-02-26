@@ -5,7 +5,6 @@
 // Generated on: 2016.02.24 at 11:36:41 PM GMT 
 //
 
-
 package com.corbo.musicstreaming.model.jaxb;
 
 import java.util.ArrayList;
@@ -15,11 +14,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for artistCplxType complex type.
+ * <p>
+ * Java class for artistCplxType complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="artistCplxType">
@@ -38,95 +39,86 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "artistCplxType", propOrder = {
-    "artistName",
-    "artistUuid",
-    "albumList"
-})
+@XmlType(name = "artistCplxType", propOrder = { "artistName", "artistUuid", "albumList" })
 public class ArtistCplxType {
 
-    @XmlElement(required = true)
-    protected String artistName;
-    @XmlElement(required = true)
-    protected String artistUuid;
-    @XmlElement(required = true)
-    protected List<AlbumList> albumList;
+	@XmlElement(required = true)
+	protected String artistName;
+	@XmlElement(required = true)
+	protected String artistUuid;
+	@XmlElement(required = true)
+	protected List<AlbumList> albumList;
 
-    /**
-     * Gets the value of the artistName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getArtistName() {
-        return artistName;
-    }
+	/**
+	 * Gets the value of the artistName property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getArtistName() {
+		return artistName;
+	}
 
-    /**
-     * Sets the value of the artistName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setArtistName(String value) {
-        this.artistName = value;
-    }
+	/**
+	 * Sets the value of the artistName property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setArtistName(String value) {
+		this.artistName = value;
+	}
 
-    /**
-     * Gets the value of the artistUuid property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getArtistUuid() {
-        return artistUuid;
-    }
+	/**
+	 * Gets the value of the artistUuid property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getArtistUuid() {
+		return artistUuid;
+	}
 
-    /**
-     * Sets the value of the artistUuid property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setArtistUuid(String value) {
-        this.artistUuid = value;
-    }
+	/**
+	 * Sets the value of the artistUuid property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setArtistUuid(String value) {
+		this.artistUuid = value;
+	}
 
-    /**
-     * Gets the value of the albumList property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the albumList property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAlbumList().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AlbumList }
-     * 
-     * 
-     */
-    public List<AlbumList> getAlbumList() {
-        if (albumList == null) {
-            albumList = new ArrayList<AlbumList>();
-        }
-        return this.albumList;
-    }
+	/**
+	 * Gets the value of the albumList property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the albumList property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getAlbumList().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link AlbumList
+	 * }
+	 * 
+	 * 
+	 */
+	public List<AlbumList> getAlbumList() {
+		if (albumList == null) {
+			albumList = new ArrayList<AlbumList>();
+		}
+		return this.albumList;
+	}
 
 }

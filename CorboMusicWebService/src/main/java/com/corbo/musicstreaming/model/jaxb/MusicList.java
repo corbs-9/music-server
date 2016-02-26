@@ -5,7 +5,6 @@
 // Generated on: 2016.02.24 at 11:36:41 PM GMT 
 //
 
-
 package com.corbo.musicstreaming.model.jaxb;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,11 +13,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType>
@@ -35,37 +36,32 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "artistList"
-})
+@XmlType(name = "", propOrder = { "artistList" })
 @XmlRootElement(name = "MusicList")
 public class MusicList {
 
-    @XmlElement(required = true)
-    protected ArtistList artistList;
+	@XmlElement(required = true)
+	protected ArtistList artistList;
 
-    /**
-     * Gets the value of the artistList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ArtistList }
-     *     
-     */
-    public ArtistList getArtistList() {
-        return artistList;
-    }
+	/**
+	 * Gets the value of the artistList property.
+	 * 
+	 * @return possible object is {@link ArtistList }
+	 * 
+	 */
+	public ArtistList getArtistList() {
+		return artistList;
+	}
 
-    /**
-     * Sets the value of the artistList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ArtistList }
-     *     
-     */
-    public void setArtistList(ArtistList value) {
-        this.artistList = value;
-    }
+	/**
+	 * Sets the value of the artistList property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link ArtistList }
+	 * 
+	 */
+	public void setArtistList(ArtistList value) {
+		this.artistList = value;
+	}
 
 }

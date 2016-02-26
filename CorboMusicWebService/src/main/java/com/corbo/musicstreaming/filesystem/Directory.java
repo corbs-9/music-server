@@ -28,9 +28,9 @@ public class Directory {
 				}
 			});
 		} catch (DirectoryIteratorException ex) {
-			
+
 		} catch (IOException e) {
-			
+
 		}
 	}
 
@@ -77,7 +77,7 @@ public class Directory {
 		}
 		return files;
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

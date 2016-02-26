@@ -16,7 +16,8 @@ import com.corbo.musicstreaming.filesystem.Directory;
  * </p>
  * 
  * <p>
- * Async methods because we don't want to wait around whilst the application does its thing...
+ * Async methods because we don't want to wait around whilst the application
+ * does its thing...
  * </p>
  * 
  * @author corbo
@@ -24,20 +25,21 @@ import com.corbo.musicstreaming.filesystem.Directory;
  */
 @Controller
 public class Tasks {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final WriteLock writeLock = new ReentrantReadWriteLock().writeLock();
-	
+
 	/**
 	 * <p>
-	 * A method which synchronises the data store. Made Async other wise we will be waiting for a while...
+	 * A method which synchronises the data store. Made Async other wise we will
+	 * be waiting for a while...
 	 * </p>
 	 * 
 	 */
 	@Async
 	public void synchroniseDataStore() {
 		if (writeLock.tryLock()) {
-			
+
 			try {
 				logger.debug("Sleeping");
 				Thread.sleep(10000L);
@@ -50,7 +52,7 @@ public class Tasks {
 		} else {
 			logger.debug("Thread already has lock! Database syncing, go away!...");
 		}
-		
+
 	}
-	
+
 }

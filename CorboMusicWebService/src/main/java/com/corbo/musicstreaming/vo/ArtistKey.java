@@ -10,5 +10,4 @@ public class ArtistKey implements Serializable {
 
 	private static final long serialVersionUID = 3897681140402704033L;
 
-
 }

@@ -15,8 +15,6 @@ import org.springframework.stereotype.Controller;
 
 import com.corbo.musicstreaming.util.AppUtils;
 import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.HostDistance;
-import com.datastax.driver.core.PoolingOptions;
 import com.datastax.driver.core.Session;
 
 @Controller
@@ -30,10 +28,11 @@ public class CassandraService {
 	private String createArtistTableCql = "CREATE TABLE IF NOT EXISTS music.artists "
 			+ "( id uuid, first_letter text, name text, PRIMARY KEY (id, name) )";
 	private String createAlbumTableCql = "CREATE TABLE IF NOT EXISTS music.albums ( id uuid, name text, "
-			+ "album_year int, artist_name text, PRIMARY KEY (id, name) )";
+			+ "artist_name text, PRIMARY KEY (id, name) )";
 	private String createTrackTableCql = "CREATE TABLE IF NOT EXISTS music.tracks "
-			+ "( id uuid, name text, album_name text, artist_name text, duration int, location text, number int, "
+			+ "( id uuid, name text, album_name text, artist_name text, duration int, location text, number int, year int, "
 			+ "PRIMARY KEY (id, name) )";
+	private String indexArtistFirstLetter = "CREATE INDEX IF NOT EXISTS artist_first_letter ON music.artists (first_letter)";
 	private String indexArtistOnAlbums = "CREATE INDEX IF NOT EXISTS album_artist ON music.albums (artist_name)";
 	private String indexArtistOnTracks = "CREATE INDEX IF NOT EXISTS track_artist ON music.tracks (artist_name)";
 	private String indexAlbumOnTracks = "CREATE INDEX IF NOT EXISTS track_album ON music.tracks (album_name)";
@@ -70,7 +69,7 @@ public class CassandraService {
 			content = content.replaceAll("user.home", System.getProperty("user.home"));
 			Files.write(path, content.getBytes(StandardCharsets.UTF_8));
 		} catch (Exception e) {
-			
+
 		}
 		System.setProperty("cassandra.config", url.toString());
 	}
@@ -86,11 +85,7 @@ public class CassandraService {
 	}
 
 	private void createCluster() {
-		PoolingOptions poolingOptions = new PoolingOptions();
-		poolingOptions.setCoreConnectionsPerHost(HostDistance.LOCAL, 1);
-		poolingOptions.setMaxConnectionsPerHost(HostDistance.LOCAL, 10);
-		poolingOptions.setHeartbeatIntervalSeconds(120);
-		cluster = Cluster.builder().addContactPoint(host).withPort(port).withPoolingOptions(poolingOptions).build();
+		cluster = Cluster.builder().addContactPoint(host).withPort(port).build();
 		session = cluster.connect();
 	}
 
@@ -106,12 +101,16 @@ public class CassandraService {
 		getSession().execute(createAlbumTableCql);
 		logger.debug("{} Creating the track schema if not present", logDebugId);
 		getSession().execute(createTrackTableCql);
+		logger.debug("{} Creating index on artist table for first_letter if not present", logDebugId);
+		getSession().execute(indexArtistFirstLetter);
 		logger.debug("{} Creating index on album table for artist column if not present", logDebugId);
 		getSession().execute(indexArtistOnAlbums);
 		logger.debug("{} Creating index on tracks table for artist column if not present", logDebugId);
 		getSession().execute(indexArtistOnTracks);
 		logger.debug("{} Creating index on tracks table for album column if not present", logDebugId);
 		getSession().execute(indexAlbumOnTracks);
+		logger.debug("{} Closing cluster as we've set up the database and don't need it anymore...", logDebugId);
+		destroy();
 	}
 
 	private Cluster cluster;
@@ -119,7 +118,7 @@ public class CassandraService {
 	private String host = "127.0.0.1";
 	private int port = 9042;
 
-	public void destroy() {
+	private void destroy() {
 		if (session != null) {
 			try {
 				logger.trace("Attempting to close the session.");
@@ -142,12 +141,7 @@ public class CassandraService {
 		}
 	}
 
-	public Session getSession() {
+	private Session getSession() {
 		return this.session;
 	}
-
-	public void close() {
-		this.cluster.close();
-	}
-
 }

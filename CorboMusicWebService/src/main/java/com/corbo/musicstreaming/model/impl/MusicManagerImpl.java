@@ -24,7 +24,7 @@ import com.corbo.musicstreaming.util.MediaStreamer;
 public class MusicManagerImpl implements MusicManager {
 
 	final int chunk_size = 512 * 512; // 512kb chunks
-	
+
 	public ResponseEntity<StreamingResponseBody> buildStream(final String trackId, final String range) {
 		// Optional<StreamingResponseBody> audioStream = null;
 		try {

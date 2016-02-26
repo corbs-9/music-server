@@ -5,7 +5,6 @@
 // Generated on: 2016.02.24 at 11:36:41 PM GMT 
 //
 
-
 package com.corbo.musicstreaming.model.jaxb;
 
 import java.util.ArrayList;
@@ -15,11 +14,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for albumList complex type.
+ * <p>
+ * Java class for albumList complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="albumList">
@@ -36,41 +37,40 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "albumList", propOrder = {
-    "album"
-})
+@XmlType(name = "albumList", propOrder = { "album" })
 public class AlbumList {
 
-    @XmlElement(required = true)
-    protected List<AlbumCplxType> album;
+	@XmlElement(required = true)
+	protected List<AlbumCplxType> album;
 
-    /**
-     * Gets the value of the album property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the album property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAlbum().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AlbumCplxType }
-     * 
-     * 
-     */
-    public List<AlbumCplxType> getAlbum() {
-        if (album == null) {
-            album = new ArrayList<AlbumCplxType>();
-        }
-        return this.album;
-    }
+	/**
+	 * Gets the value of the album property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the album property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getAlbum().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link AlbumCplxType }
+	 * 
+	 * 
+	 */
+	public List<AlbumCplxType> getAlbum() {
+		if (album == null) {
+			album = new ArrayList<AlbumCplxType>();
+		}
+		return this.album;
+	}
 
 }
