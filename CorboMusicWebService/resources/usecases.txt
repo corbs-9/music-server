@@ -1,0 +1,10 @@
+1. Search for all artists
+2. Search for all albums
+3. Search for all albums for a particular artist
+4. Search for all tracks
+5. Search for all tracks for a particular album
+6. Search for all tracks for a particular artist
+
+artist - artist id, artist name
+album - album id, album name, album artist_name
+track - track id, track name, track duration, track location, track album_name, track artist_name
