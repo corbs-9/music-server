@@ -10,9 +10,8 @@ import com.corbo.musicstreaming.entity.Artist;
 public interface ArtistRepository extends CassandraRepository<Artist> {
 
 	@Query("SELECT * FROM artist WHERE name=?0")
-	Collection<Artist> findByNameIgnoreCase(String name);
+	Collection<Artist> findByName(String name);
 
 	@Query("SELECT * FROM artist where first_letter=?0")
 	Collection<Artist> findByFirstLetterIgnoreCase(String firstLetter);
-
 }

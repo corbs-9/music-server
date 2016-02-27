@@ -1,20 +1,15 @@
 package com.corbo.musicstreaming.model.jaxb;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.annotations.ApiModelProperty;
 
 public class AlbumCplxType {
 
-	@JsonProperty(required = true)
 	@ApiModelProperty(notes = "The name of the album", required = true)
 	protected String albumName;
 
-	@JsonProperty(required = true)
 	@ApiModelProperty(notes = "The name of the artist", required = true)
 	protected String artistName;
 
-	@JsonProperty(required = true)
 	@ApiModelProperty(notes = "The track list associated with the album", required = true)
 	protected TrackList trackList;
 

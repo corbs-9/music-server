@@ -1,5 +1,7 @@
 package com.corbo.musicstreaming.entity;
 
+import java.util.UUID;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.cassandra.mapping.Column;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
@@ -9,7 +11,7 @@ import org.springframework.data.cassandra.mapping.Table;
 public class Artist {
 
 	@PrimaryKey(value = "id")
-	private String artistId;
+	private UUID artistId;
 	
 	@Column(value = "name")
 	private String artistName;
@@ -20,14 +22,14 @@ public class Artist {
 	/**
 	 * @return the artistId
 	 */
-	public String getArtistId() {
+	public UUID getArtistId() {
 		return artistId;
 	}
 
 	/**
 	 * @param artistId the artistId to set
 	 */
-	public void setArtistId(String artistId) {
+	public void setArtistId(UUID artistId) {
 		this.artistId = artistId;
 	}
 

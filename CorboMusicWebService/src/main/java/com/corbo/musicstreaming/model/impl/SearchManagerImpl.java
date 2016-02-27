@@ -13,6 +13,7 @@ import com.corbo.musicstreaming.model.jaxb.ArtistCplxType;
 import com.corbo.musicstreaming.model.jaxb.ArtistList;
 import com.corbo.musicstreaming.model.jaxb.MusicList;
 import com.corbo.musicstreaming.repository.ArtistRepository;
+import com.corbo.musicstreaming.util.AppUtils;
 
 @Controller
 public class SearchManagerImpl implements SearchManager {
@@ -21,7 +22,13 @@ public class SearchManagerImpl implements SearchManager {
 	private ArtistRepository artistRepository;
 
 	public CallResult<MusicList> searchForArtist(String artist) {
-		Collection<Artist> artistCollection = artistRepository.findByNameIgnoreCase(artist);
+		Artist a = new Artist();
+		a.setArtistId(AppUtils.generateUuidFromString("Drake"));
+		a.setArtistName("Drake");
+		a.setFirstLetter("D");
+		artistRepository.save(a);
+		
+		Collection<Artist> artistCollection = artistRepository.findByName(artist);
 		if (artistCollection != null) {
 			System.out.println("artist iterable is not null");
 			if (artistCollection.isEmpty()) {
@@ -35,7 +42,7 @@ public class SearchManagerImpl implements SearchManager {
 		ArtistList artistList = new ArtistList();
 		ArtistCplxType artistCplx = new ArtistCplxType();
 		artistCplx.setArtistName("Drake");
-		artistCplx.setArtistUuid("1");
+		artistCplx.setArtistId("1");
 		MusicList musicList = new MusicList();
 		artistList.getArtist().add(artistCplx);
 		musicList.setArtistList(artistList);

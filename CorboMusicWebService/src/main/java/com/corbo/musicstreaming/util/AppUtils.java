@@ -2,6 +2,7 @@ package com.corbo.musicstreaming.util;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 
@@ -17,5 +18,9 @@ public class AppUtils {
 	
 	public static UUID generateUuidFromString(String text) {
 		return UUID.nameUUIDFromBytes(text.getBytes());
+	}
+	
+	public static String formatTextStringForCassandra(String text) {
+		return WordUtils.capitalize(text.toLowerCase());
 	}
 }
