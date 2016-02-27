@@ -20,13 +20,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.corbo.musicstreaming")
-@EnableAutoConfiguration(exclude = {ErrorMvcAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = { ErrorMvcAutoConfiguration.class })
 @Configuration
 @EnableAsync
 @EnableSwagger2
 public class Application {
-	
-	//Unused because Spring handles it all...
+
+	// Unused because Spring handles it all...
 	@SuppressWarnings("unused")
 	@Autowired
 	private static CassandraService cassandraService;
@@ -36,13 +36,22 @@ public class Application {
 	}
 
 	@Bean
-	public Docket newsApi() {
-		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).groupName("musicServer").select().build();
-	}
-
-	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("Corbo Music Server").description("A RESTful Music Web Server")
-				.contact("Corbo").license("Apache License Version 2.0")
-				.licenseUrl("https://github.com/corbs9/music-server/blob/v0.1/LICENSE").version("2.0").build();
-	}
+    public Docket musicApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .groupName("musicServer")
+                .select()
+                .build();
+    }
+     
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Corbo Music Server")
+                .description("A RESTful Music Web Server")
+                .contact("Corbo")
+                .license("Apache License Version 2.0")
+                .licenseUrl("https://github.com/corbs9/music-server/blob/v0.1/LICENSE")
+                .version("2.0")
+                .build();
+    }
 }
