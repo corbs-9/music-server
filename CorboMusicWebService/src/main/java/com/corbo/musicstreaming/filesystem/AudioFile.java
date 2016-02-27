@@ -1,4 +1,4 @@
-package com.corbo.musicstreaming.vo;
+package com.corbo.musicstreaming.filesystem;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package com.corbo.musicstreaming.database;
+package com.corbo.musicstreaming.config;
 
 import java.io.IOException;
 import java.net.URI;
@@ -25,20 +25,21 @@ public class CassandraService {
 
 	private String createKeyspaceCql = "CREATE KEYSPACE IF NOT EXISTS music WITH REPLICATION = "
 			+ "{ 'class' : 'SimpleStrategy', 'replication_factor' : 1 }";
-	private String createArtistTableCql = "CREATE TABLE IF NOT EXISTS music.artists "
-			+ "( id uuid, first_letter text, name text, PRIMARY KEY (id, name) )";
-	private String createAlbumTableCql = "CREATE TABLE IF NOT EXISTS music.albums ( id uuid, name text, "
-			+ "artist_name text, PRIMARY KEY (id, name) )";
-	private String createTrackTableCql = "CREATE TABLE IF NOT EXISTS music.tracks "
+	private String createArtistTableCql = "CREATE TABLE IF NOT EXISTS music.artist "
+			+ "( id uuid, first_letter text, name text, PRIMARY KEY (id) )";
+	private String createAlbumTableCql = "CREATE TABLE IF NOT EXISTS music.album ( id uuid, name text, "
+			+ "artist_name text, PRIMARY KEY (id) )";
+	private String createTrackTableCql = "CREATE TABLE IF NOT EXISTS music.track "
 			+ "( id uuid, name text, album_name text, artist_name text, duration int, location text, number int, year int, "
-			+ "PRIMARY KEY (id, name) )";
-	private String indexArtistFirstLetter = "CREATE INDEX IF NOT EXISTS artist_first_letter ON music.artists (first_letter)";
-	private String indexArtistOnAlbums = "CREATE INDEX IF NOT EXISTS album_artist ON music.albums (artist_name)";
-	private String indexArtistOnTracks = "CREATE INDEX IF NOT EXISTS track_artist ON music.tracks (artist_name)";
-	private String indexAlbumOnTracks = "CREATE INDEX IF NOT EXISTS track_album ON music.tracks (album_name)";
+			+ "PRIMARY KEY (id) )";
+	private String indexArtistFirstLetter = "CREATE INDEX IF NOT EXISTS artist_first_letter ON music.artist (first_letter)";
+	private String indexArtistName = "CREATE INDEX IF NOT EXISTS artist_name ON music.artist (name)";
+	private String indexArtistOnAlbums = "CREATE INDEX IF NOT EXISTS album_artist ON music.album (artist_name)";
+	private String indexArtistOnTracks = "CREATE INDEX IF NOT EXISTS track_artist ON music.track (artist_name)";
+	private String indexAlbumOnTracks = "CREATE INDEX IF NOT EXISTS track_album ON music.track (album_name)";
 
 	private EmbeddedCassandraService cassandra;
-
+	
 	public CassandraService() {
 		init();
 	}
@@ -103,6 +104,8 @@ public class CassandraService {
 		getSession().execute(createTrackTableCql);
 		logger.debug("{} Creating index on artist table for first_letter if not present", logDebugId);
 		getSession().execute(indexArtistFirstLetter);
+		logger.debug("{} Creating index on artist table for name if not present", logDebugId);
+		getSession().execute(indexArtistName);
 		logger.debug("{} Creating index on album table for artist column if not present", logDebugId);
 		getSession().execute(indexArtistOnAlbums);
 		logger.debug("{} Creating index on tracks table for artist column if not present", logDebugId);

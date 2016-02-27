@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import com.corbo.musicstreaming.database.CassandraService;
+import com.corbo.musicstreaming.config.CassandraService;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
@@ -24,8 +24,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Application {
 	
+	//Unused because Spring handles it all...
+	@SuppressWarnings("unused")
 	@Autowired
-	private CassandraService cassandraService;
+	private static CassandraService cassandraService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

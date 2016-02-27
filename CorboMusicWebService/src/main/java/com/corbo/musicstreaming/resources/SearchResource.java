@@ -26,6 +26,7 @@ public class SearchResource {
 	@Autowired
 	private SearchManager searchManager;
 
+	
 	@ApiOperation(value = "/artist/{artist}", nickname = "searchForArtist")
 	@RequestMapping(value = "/artist/{artist}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiImplicitParams({
@@ -38,6 +39,7 @@ public class SearchResource {
 		return new ResponseEntity<MusicList>(callResult.getResultObject(), HttpStatus.OK);
 	}
 
+	
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "album", allowMultiple = false, value = "The album name to search", required = true, dataType = "string", paramType = "path", defaultValue = "null") })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = MusicList.class),
@@ -48,6 +50,7 @@ public class SearchResource {
 		return null;
 	}
 
+	
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "track", allowMultiple = false, value = "The track name to search", required = true, dataType = "string", paramType = "path", defaultValue = "null") })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = MusicList.class),

@@ -1,10 +1,8 @@
-package com.corbo.musicstreaming.vo;
+package com.corbo.musicstreaming.filesystem;
 
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.corbo.musicstreaming.filesystem.Directory;
 
 /**
  * <p>

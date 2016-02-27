@@ -14,4 +14,8 @@ public class AppUtils {
 	public static UUID generateUuid() {
 		return UUID.randomUUID();
 	}
+	
+	public static UUID generateUuidFromString(String text) {
+		return UUID.nameUUIDFromBytes(text.getBytes());
+	}
 }

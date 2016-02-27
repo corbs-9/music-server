@@ -8,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 
-import com.corbo.musicstreaming.filesystem.Directory;
-
 /**
  * <p>
  * A class which provides methods to perform on a database.
