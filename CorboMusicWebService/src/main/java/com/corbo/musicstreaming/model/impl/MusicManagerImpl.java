@@ -10,25 +10,33 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import com.corbo.musicstreaming.entity.Track;
 import com.corbo.musicstreaming.model.MusicManager;
+import com.corbo.musicstreaming.repository.TrackRepository;
 import com.corbo.musicstreaming.util.MediaStreamer;
 
 @Controller
 public class MusicManagerImpl implements MusicManager {
+	
+	@Autowired
+	private TrackRepository trackRepository;
 
 	final int chunk_size = 512 * 512; // 512kb chunks
 
 	public ResponseEntity<StreamingResponseBody> buildStream(final String trackId, final String range) {
+		Track track = trackRepository.findById(UUID.fromString(trackId));
 		// Optional<StreamingResponseBody> audioStream = null;
 		try {
-			Path path = Paths.get("/Users/c7652683/dn.mp3");
+			Path path = Paths.get(track.getFilePath());
 			FileSystemResource fileSystemResource = new FileSystemResource(path.toFile().getAbsolutePath());
 			File file = fileSystemResource.getFile();
 			if (range == null) {

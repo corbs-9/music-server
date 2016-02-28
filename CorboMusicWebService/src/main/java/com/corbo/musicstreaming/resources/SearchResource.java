@@ -35,8 +35,8 @@ public class SearchResource {
 			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
 	public ResponseEntity<MusicList> searchForArtist(@PathVariable("artist") String artist) {
-		CallResult<MusicList> callResult = searchManager.searchForArtist(artist);
-		return new ResponseEntity<MusicList>(callResult.getResultObject(), HttpStatus.OK);
+		CallResult<MusicList> callResult = searchManager.searchForTracksByArtist(artist);
+		return new ResponseEntity<MusicList>(callResult.getResultObject(), HttpStatus.valueOf(callResult.getReturnCode()));
 	}
 
 	

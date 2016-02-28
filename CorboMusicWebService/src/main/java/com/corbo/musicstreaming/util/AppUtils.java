@@ -21,6 +21,16 @@ public class AppUtils {
 	}
 	
 	public static String formatTextStringForCassandra(String text) {
-		return WordUtils.capitalize(text.toLowerCase());
+		if (null != text && !"".equals(text)) {
+			return WordUtils.capitalize(text.toLowerCase());
+		}
+		return null;
+	}
+	
+	public static String getFirstLetterFromString(String text) {
+		if (null != text && !"".equals(text)) {
+			return text.substring(0, 1);
+		}
+		return null;
 	}
 }

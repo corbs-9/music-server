@@ -2,52 +2,29 @@ package com.corbo.musicstreaming.model.impl;
 
 import java.util.Collection;
 
-import org.apache.commons.lang.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.corbo.musicstreaming.entity.Artist;
+import com.corbo.musicstreaming.entity.Track;
+import com.corbo.musicstreaming.factory.ObjectFactory;
 import com.corbo.musicstreaming.model.CallResult;
 import com.corbo.musicstreaming.model.SearchManager;
-import com.corbo.musicstreaming.model.jaxb.ArtistCplxType;
-import com.corbo.musicstreaming.model.jaxb.ArtistList;
 import com.corbo.musicstreaming.model.jaxb.MusicList;
-import com.corbo.musicstreaming.repository.ArtistRepository;
+import com.corbo.musicstreaming.repository.TrackRepository;
 import com.corbo.musicstreaming.util.AppUtils;
 
 @Controller
 public class SearchManagerImpl implements SearchManager {
-	
+
 	@Autowired
-	private ArtistRepository artistRepository;
-
-	public CallResult<MusicList> searchForArtist(String artist) {
-		Artist a = new Artist();
-		a.setArtistId(AppUtils.generateUuidFromString("Drake"));
-		a.setArtistName("Drake");
-		a.setFirstLetter("D");
-		artistRepository.save(a);
-		
-		Collection<Artist> artistCollection = artistRepository.findByName(artist);
-		if (artistCollection != null) {
-			System.out.println("artist iterable is not null");
-			if (artistCollection.isEmpty()) {
-				System.out.println("Empty collection :(");
-			}
-			artistCollection.forEach(artistEntry -> System.out.println(artistEntry.toString()));
-		} else {
-			System.out.println("artist iterable is null");
+	private TrackRepository trackRepository;
+	
+	public CallResult<MusicList> searchForTracksByArtist(String artist) {
+		artist = AppUtils.formatTextStringForCassandra(artist);
+		Collection<Track> trackCollection = trackRepository.findByArtistName(artist);
+		if (!trackCollection.isEmpty()) {
+			return new CallResult<MusicList>(200, ObjectFactory.createMusicListFromTrackList(trackCollection));
 		}
-		artist = WordUtils.capitalize(artist.toLowerCase());
-		ArtistList artistList = new ArtistList();
-		ArtistCplxType artistCplx = new ArtistCplxType();
-		artistCplx.setArtistName("Drake");
-		artistCplx.setArtistId("1");
-		MusicList musicList = new MusicList();
-		artistList.getArtist().add(artistCplx);
-		musicList.setArtistList(artistList);
-		CallResult<MusicList> callResult = new CallResult<MusicList>(200, musicList);
-		return callResult;
+		return new CallResult<MusicList>(404, null);
 	}
-
 }

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
@@ -87,6 +88,11 @@ public class AudioFile {
 
 	public String getFullFilePath() {
 		return this.fullFilePath;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

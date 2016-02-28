@@ -1,5 +1,7 @@
 package com.corbo.musicstreaming.entity;
 
+import java.util.UUID;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.cassandra.mapping.Column;
 import org.springframework.data.cassandra.mapping.PrimaryKey;
@@ -9,7 +11,7 @@ import org.springframework.data.cassandra.mapping.Table;
 public class Track {
 
 	@PrimaryKey(value = "id")
-	private String trackId;
+	private UUID trackId;
 
 	@Column(value = "name")
 	private String trackName;
@@ -21,7 +23,7 @@ public class Track {
 	private String artistName;
 
 	@Column(value = "duration")
-	private int duration;
+	private String duration;
 
 	@Column(value = "number")
 	private String trackNumber;
@@ -30,12 +32,12 @@ public class Track {
 	private String filePath;
 
 	@Column(value = "year")
-	private int year;
+	private String year;
 
 	/**
 	 * @return the trackId
 	 */
-	public String getTrackId() {
+	public UUID getTrackId() {
 		return trackId;
 	}
 
@@ -43,7 +45,7 @@ public class Track {
 	 * @param trackId
 	 *            the trackId to set
 	 */
-	public void setTrackId(String trackId) {
+	public void setTrackId(UUID trackId) {
 		this.trackId = trackId;
 	}
 
@@ -95,7 +97,7 @@ public class Track {
 	/**
 	 * @return the duration
 	 */
-	public int getDuration() {
+	public String getDuration() {
 		return duration;
 	}
 
@@ -103,7 +105,7 @@ public class Track {
 	 * @param duration
 	 *            the duration to set
 	 */
-	public void setDuration(int duration) {
+	public void setDuration(String duration) {
 		this.duration = duration;
 	}
 
@@ -140,7 +142,7 @@ public class Track {
 	/**
 	 * @return the year
 	 */
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
@@ -148,7 +150,7 @@ public class Track {
 	 * @param year
 	 *            the year to set
 	 */
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 

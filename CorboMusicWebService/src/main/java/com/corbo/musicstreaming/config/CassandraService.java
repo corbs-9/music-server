@@ -30,13 +30,14 @@ public class CassandraService {
 	private String createAlbumTableCql = "CREATE TABLE IF NOT EXISTS music.album ( id uuid, name text, "
 			+ "artist_name text, PRIMARY KEY (id) )";
 	private String createTrackTableCql = "CREATE TABLE IF NOT EXISTS music.track "
-			+ "( id uuid, name text, album_name text, artist_name text, duration int, location text, number int, year int, "
+			+ "( id uuid, name text, album_name text, artist_name text, duration text, location text, number text, year text, "
 			+ "PRIMARY KEY (id) )";
 	private String indexArtistFirstLetter = "CREATE INDEX IF NOT EXISTS artist_first_letter ON music.artist (first_letter)";
 	private String indexArtistName = "CREATE INDEX IF NOT EXISTS artist_name ON music.artist (name)";
 	private String indexArtistOnAlbums = "CREATE INDEX IF NOT EXISTS album_artist ON music.album (artist_name)";
 	private String indexArtistOnTracks = "CREATE INDEX IF NOT EXISTS track_artist ON music.track (artist_name)";
 	private String indexAlbumOnTracks = "CREATE INDEX IF NOT EXISTS track_album ON music.track (album_name)";
+	private String indexLocationOnTracks = "CREATE INDEX IF NOT EXISTS track_location ON music.track (location)";
 
 	private EmbeddedCassandraService cassandra;
 	
@@ -112,6 +113,8 @@ public class CassandraService {
 		getSession().execute(indexArtistOnTracks);
 		logger.debug("{} Creating index on tracks table for album column if not present", logDebugId);
 		getSession().execute(indexAlbumOnTracks);
+		logger.debug("{} Creating index on tracks table for location column if not present", logDebugId);
+		getSession().execute(indexLocationOnTracks);
 		logger.debug("{} Closing cluster as we've set up the database and don't need it anymore...", logDebugId);
 		destroy();
 	}

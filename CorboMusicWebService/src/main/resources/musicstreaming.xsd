@@ -25,7 +25,7 @@
 	<xs:complexType name="artistCplxType">
 		<xs:sequence>
 			<xs:element name="artistName" type="xs:string" minOccurs="1" />
-			<xs:element name="artistUuid" type="xs:string" minOccurs="1"/>
+			<xs:element name="artistId" type="xs:string" minOccurs="1"/>
 			<xs:element name="albumList" type="albumList"
 				maxOccurs="unbounded" minOccurs="1" />
 		</xs:sequence>
@@ -39,9 +39,9 @@
 
 	<xs:complexType name="albumCplxType">
 		<xs:sequence>
-			<xs:element name="albumName" type="xs:string" minOccurs="1" maxOccurs="1" />
-			<xs:element name="albumUuid" type="xs:string" minOccurs="1"/>
-			<xs:element name="artistUuid" type="xs:string" minOccurs="1"/>
+			<xs:element name="albumId" type="xs:string" minOccurs="1" maxOccurs="1" />
+			<xs:element name="albumName" type="xs:string" minOccurs="1"/>
+			<xs:element name="artistName" type="xs:string" minOccurs="1"/>
 			<xs:element name="trackList" type="trackList"
 				maxOccurs="1" minOccurs="1"/>
 		</xs:sequence>
@@ -56,9 +56,9 @@
 	<xs:complexType name="trackCplxType">
 		<xs:sequence>
 			<xs:element name="trackName" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="trackUuid" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="albumUuid" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="artistUuid" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="trackId" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="albumName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="artistName" type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="durationInSeconds" type="xs:int" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="trackNumber" type="xs:string" minOccurs="1" maxOccurs="1" />
 		</xs:sequence>
