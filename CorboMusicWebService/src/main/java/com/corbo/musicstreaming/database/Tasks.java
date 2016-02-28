@@ -65,7 +65,7 @@ public class Tasks {
 			try {
 				directory = new Directory("/Users/c7652683/Music/iTunes/iTunes Media/Music");
 				audioList = new AudioList(directory);
-				audioList.getAudioFileList().forEach(af -> {
+				audioList.getAudioFileList().parallelStream().forEach(af -> {
 					logger.trace("{} Processing the following AudioFile: {}", logDebugId, af.toString());
 					saveArtist(af);
 					saveAlbum(af);

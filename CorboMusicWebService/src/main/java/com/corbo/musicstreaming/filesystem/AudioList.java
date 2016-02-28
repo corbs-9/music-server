@@ -41,7 +41,7 @@ public class AudioList {
 
 	public Set<AudioFile> getAudioFileList() {
 		audioFileList = new HashSet<AudioFile>();
-		fileList.forEach(musicFile -> {
+		fileList.parallelStream().forEach(musicFile -> {
 			audioFileList.add(new AudioFile(musicFile));
 		});
 		return audioFileList;
