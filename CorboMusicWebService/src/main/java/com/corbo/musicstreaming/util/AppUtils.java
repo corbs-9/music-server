@@ -16,10 +16,6 @@ public class AppUtils {
 		return UUID.randomUUID();
 	}
 	
-	public static UUID generateUuidFromString(String text) {
-		return UUID.nameUUIDFromBytes(text.getBytes());
-	}
-	
 	public static String formatTextStringForCassandra(String text) {
 		if (null != text && !"".equals(text)) {
 			return WordUtils.capitalize(text.toLowerCase());

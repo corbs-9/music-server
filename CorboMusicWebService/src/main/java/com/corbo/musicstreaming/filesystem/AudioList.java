@@ -18,7 +18,6 @@ import java.util.Set;
  */
 public class AudioList {
 
-	private Set<AudioFile> audioFileList;
 	private Set<String> fileList;
 
 	public AudioList(Directory dir) {
@@ -38,13 +37,8 @@ public class AudioList {
 		dir.getChildDirectories().forEach(childDir -> handleFolder(childDir));
 		dir.getFiles().forEach(file -> handleFile(file));
 	}
-
-	public Set<AudioFile> getAudioFileList() {
-		audioFileList = new HashSet<AudioFile>();
-		fileList.parallelStream().forEach(musicFile -> {
-			audioFileList.add(new AudioFile(musicFile));
-		});
-		return audioFileList;
+	
+	public Set<String> getFileList() {
+		return this.fileList;
 	}
-
 }

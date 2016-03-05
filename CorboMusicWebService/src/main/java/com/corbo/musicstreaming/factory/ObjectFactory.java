@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.corbo.musicstreaming.entity.Artist;
 import com.corbo.musicstreaming.entity.Track;
 import com.corbo.musicstreaming.model.jaxb.AlbumCplxType;
 import com.corbo.musicstreaming.model.jaxb.AlbumList;
@@ -21,7 +22,7 @@ public class ObjectFactory {
 		ArtistList artistList = new ArtistList();
 		Map<String, ArrayList<String>> artistToAlbumMap = new HashMap<String, ArrayList<String>>();
 		Map<String, ArrayList<TrackCplxType>> albumToTrackMap = new HashMap<String, ArrayList<TrackCplxType>>();
-		trackCollection.parallelStream().forEach(t -> {
+		trackCollection.forEach(t -> {
 			if (!artistToAlbumMap.containsKey(t.getArtistName())) {
 				artistToAlbumMap.put(t.getArtistName(), new ArrayList<String>());
 			}
@@ -33,6 +34,8 @@ public class ObjectFactory {
 			}
 			TrackCplxType trackCplx = new TrackCplxType();
 			trackCplx.setTrackId(t.getTrackId().toString());
+			trackCplx.setAlbumName(t.getAlbumName());
+			trackCplx.setArtistName(t.getArtistName());
 			trackCplx.setTrackName(t.getTrackName());
 			trackCplx.setTrackNumber(t.getTrackNumber());
 			trackCplx.setDurationInSeconds(Integer.parseInt(t.getDuration()));
@@ -54,6 +57,19 @@ public class ObjectFactory {
 			artistList.getArtist().add(artistCplx);
 		});
 		musicList.setArtistList(artistList);
+		return musicList;
+	}
+
+	public static MusicList createMusicListArtists(Collection<Artist> artists) {
+		MusicList musicList = new MusicList();
+		ArtistList artistList = new ArtistList();
+		musicList.setArtistList(artistList);
+		artists.stream().forEach(artist -> {
+			ArtistCplxType art = new ArtistCplxType();
+			art.setArtistName(artist.getArtistName());
+			art.setArtistId(artist.getArtistId().toString());
+			artistList.getArtist().add(art);
+		});
 		return musicList;
 	}
 }

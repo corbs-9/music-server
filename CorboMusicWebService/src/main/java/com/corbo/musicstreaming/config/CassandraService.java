@@ -1,8 +1,9 @@
 package com.corbo.musicstreaming.config;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,6 +21,10 @@ import com.datastax.driver.core.Session;
 @Controller
 public class CassandraService {
 
+	private final String cassandraConfigDirectoryLocation = "/.musicserver/cassandra/conf/";
+	private final String cassandraConfigFileName = "cassandra.yaml";
+	private final String userHomeDir = "file://" + System.getProperty("user.home");
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final String CLASS_NAME = this.getClass().getName();
 
@@ -34,13 +39,14 @@ public class CassandraService {
 			+ "PRIMARY KEY (id) )";
 	private String indexArtistFirstLetter = "CREATE INDEX IF NOT EXISTS artist_first_letter ON music.artist (first_letter)";
 	private String indexArtistName = "CREATE INDEX IF NOT EXISTS artist_name ON music.artist (name)";
+	private String indexAlbumName = "CREATE INDEX IF NOT EXISTS album_name ON music.album (name)";
 	private String indexArtistOnAlbums = "CREATE INDEX IF NOT EXISTS album_artist ON music.album (artist_name)";
 	private String indexArtistOnTracks = "CREATE INDEX IF NOT EXISTS track_artist ON music.track (artist_name)";
 	private String indexAlbumOnTracks = "CREATE INDEX IF NOT EXISTS track_album ON music.track (album_name)";
 	private String indexLocationOnTracks = "CREATE INDEX IF NOT EXISTS track_location ON music.track (location)";
 
 	private EmbeddedCassandraService cassandra;
-	
+
 	public CassandraService() {
 		init();
 	}
@@ -61,19 +67,39 @@ public class CassandraService {
 	}
 
 	private void setCassandraProperties() {
-		URL url = ClassLoader.getSystemResource("cassandra.yaml");
-		if (url == null) {
-			throw new IllegalArgumentException("Can't find the cassandra.yaml file on the class path");
-		}
+		InputStream inputStream = null;
+		Path path = null;
+		File file = null;
 		try {
-			Path path = Paths.get(new URI(url.toString()));
+			inputStream = ClassLoader.getSystemResourceAsStream("cassandra.yaml");
+			path = Paths.get(new URI(userHomeDir + cassandraConfigDirectoryLocation));
+			file = path.toFile();
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+			path = Paths.get(new URI(userHomeDir + cassandraConfigDirectoryLocation + cassandraConfigFileName));
+			file = path.toFile();
+			if (!file.exists()) {
+				Files.copy(inputStream, path);
+			}
 			String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 			content = content.replaceAll("user.home", System.getProperty("user.home"));
 			Files.write(path, content.getBytes(StandardCharsets.UTF_8));
+			System.setProperty("cassandra.config", "file://"+file.getAbsolutePath());
 		} catch (Exception e) {
-
+			// AppUtils.logError(logger, e);
+			e.printStackTrace();
+			throw new RuntimeException();
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		System.setProperty("cassandra.config", url.toString());
+
 	}
 
 	private void startCassandra() {
@@ -109,6 +135,8 @@ public class CassandraService {
 		getSession().execute(indexArtistName);
 		logger.debug("{} Creating index on album table for artist column if not present", logDebugId);
 		getSession().execute(indexArtistOnAlbums);
+		logger.debug("{} Creating index on album table for name column if not present", logDebugId);
+		getSession().execute(indexAlbumName);
 		logger.debug("{} Creating index on tracks table for artist column if not present", logDebugId);
 		getSession().execute(indexArtistOnTracks);
 		logger.debug("{} Creating index on tracks table for album column if not present", logDebugId);

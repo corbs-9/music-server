@@ -25,7 +25,7 @@ public interface TrackRepository extends CassandraRepository<Track> {
 	Collection<Track> findByArtistName(String name);
 	
 	@Query("SELECT * FROM track WHERE location=?0")
-	Collection<Track> findByFileLocation(String location);
+	Track findByFileLocation(String location);
 	
 	@Query("SELECT * FROM track WHERE id=?0")
 	Track findById(UUID id);

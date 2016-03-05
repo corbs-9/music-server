@@ -2,7 +2,6 @@ package com.corbo.musicstreaming.filesystem;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -23,39 +22,49 @@ public class AudioFile {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public AudioFile(String fullFilePath) {
+	public AudioFile(String fullFilePath) throws IOException, SAXException, TikaException {
+		InputStream input = null;
 		try {
-			InputStream input = new FileInputStream(new File(fullFilePath));
+			input = new FileInputStream(new File(fullFilePath));
 			ContentHandler handler = (ContentHandler) new DefaultHandler();
 			Metadata metadata = new Metadata();
 			Parser parser = new Mp3Parser();
 			ParseContext parseCtx = new ParseContext();
 			parser.parse(input, handler, metadata, parseCtx);
-			input.close();
-
 			this.fullFilePath = fullFilePath;
 			trackName = metadata.get("title") != null ? WordUtils.capitalize(metadata.get("title").toLowerCase())
 					: "UNKNOWN_TRACK_NAME";
 			album = metadata.get("xmpDM:album") != null
 					? WordUtils.capitalize(metadata.get("xmpDM:album").toLowerCase()) : "UNKNOWN_ALBUM_MAME";
-			artist = metadata.get("xmpDM:artist") != null
-					? WordUtils.capitalize(metadata.get("xmpDM:artist").toLowerCase()) : "UNKNOWN_ARTIST_NAME";
-			logger.debug("**********************\n {}", artist);
+			artist = metadata.get("xmpDM:albumArtist");
 			trackNumber = metadata.get("xmpDM:trackNumber") != null ? metadata.get("xmpDM:trackNumber")
 					: "NO_TRACK_NUMBER";
 			durationInMillis = Float.parseFloat(metadata.get("xmpDM:duration"));
-
 			if (trackNumber.contains("/")) {
 				trackNumber = trackNumber.substring(0, trackNumber.indexOf("/"));
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (TikaException e) {
-			e.printStackTrace();
+
+			// List all metadata
+			String[] metadataNames = metadata.names();
+
+			for (String name : metadataNames) {
+				System.out.println(name + ": " + metadata.get(name));
+			}
+//			 System.out.println(metadata.get("title"));
+//			 System.out.println(metadata.get("dc:title"));
+//			 System.out.println(metadata.get("xmpDM:artist"));
+//			 System.out.println(metadata.get("xmpDM:albumArtist"));
+//			 System.out.println(metadata.get("Author"));
+//			 System.out.println(metadata.get("xmpDM:album"));
+
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (Exception e) {
+
+				}
+			}
 		}
 	}
 

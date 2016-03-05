@@ -38,6 +38,18 @@ public class SearchResource {
 		CallResult<MusicList> callResult = searchManager.searchForTracksByArtist(artist);
 		return new ResponseEntity<MusicList>(callResult.getResultObject(), HttpStatus.valueOf(callResult.getReturnCode()));
 	}
+	
+	@ApiOperation(value = "/artist/first_letter/{first_letter}", nickname = "searchForArtistsByFirstLetter")
+	@RequestMapping(value = "/artist/first_letter/{first_letter}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "artist", allowMultiple = false, value = "The first letter of the artist", required = true, dataType = "string", paramType = "path", defaultValue = "null") })
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = MusicList.class),
+			@ApiResponse(code = 401, message = "Unauthorized"), @ApiResponse(code = 403, message = "Forbidden"),
+			@ApiResponse(code = 404, message = "Not Found"), @ApiResponse(code = 500, message = "Failure") })
+	public ResponseEntity<MusicList> getArtistsFromFirstLetter(@PathVariable("first_letter") String firstLetter) {
+		CallResult<MusicList> callResult = searchManager.getArtistsByFirstLetter(firstLetter);
+		return new ResponseEntity<MusicList>(callResult.getResultObject(), HttpStatus.valueOf(callResult.getReturnCode()));
+	}
 
 	
 	@ApiImplicitParams({
