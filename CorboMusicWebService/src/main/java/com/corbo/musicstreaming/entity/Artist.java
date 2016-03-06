@@ -12,7 +12,7 @@ public class Artist {
 
 	@PrimaryKey(value = "id")
 	private UUID artistId;
-	
+
 	@Column(value = "name")
 	private String artistName;
 
@@ -27,7 +27,8 @@ public class Artist {
 	}
 
 	/**
-	 * @param artistId the artistId to set
+	 * @param artistId
+	 *            the artistId to set
 	 */
 	public void setArtistId(UUID artistId) {
 		this.artistId = artistId;
@@ -41,7 +42,8 @@ public class Artist {
 	}
 
 	/**
-	 * @param artistName the artistName to set
+	 * @param artistName
+	 *            the artistName to set
 	 */
 	public void setArtistName(String artistName) {
 		this.artistName = artistName;
@@ -55,7 +57,8 @@ public class Artist {
 	}
 
 	/**
-	 * @param firstLetter the firstLetter to set
+	 * @param firstLetter
+	 *            the firstLetter to set
 	 */
 	public void setFirstLetter(String firstLetter) {
 		this.firstLetter = firstLetter;
