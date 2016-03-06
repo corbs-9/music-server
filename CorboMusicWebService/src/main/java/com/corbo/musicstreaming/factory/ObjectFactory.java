@@ -20,7 +20,7 @@ import com.corbo.musicstreaming.model.jaxb.TrackCplxType;
 import com.corbo.musicstreaming.model.jaxb.TrackList;
 
 public class ObjectFactory {
-	
+
 	private static Logger logger = LoggerFactory.getLogger(ObjectFactory.class);
 
 	public static MusicList createMusicListFromTrackList(Collection<Track> trackCollection) {
@@ -48,7 +48,7 @@ public class ObjectFactory {
 				AlbumCplxType albumCplx = new AlbumCplxType();
 				albumCplx.setAlbumName(album);
 				TrackList trackList = new TrackList();
-				albumToTrackMap.get(album).forEach(track -> { 
+				albumToTrackMap.get(album).forEach(track -> {
 					logger.debug("Track={}", ToStringBuilder.reflectionToString(track));
 					artistCplx.setArtistId(track.getArtistId().toString());
 					albumCplx.setAlbumId(track.getAlbumId().toString());

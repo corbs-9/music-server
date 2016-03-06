@@ -85,7 +85,7 @@ public class CassandraService {
 			String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
 			content = content.replaceAll("user.home", System.getProperty("user.home"));
 			Files.write(path, content.getBytes(StandardCharsets.UTF_8));
-			System.setProperty("cassandra.config", "file://"+file.getAbsolutePath());
+			System.setProperty("cassandra.config", "file://" + file.getAbsolutePath());
 		} catch (Exception e) {
 			// AppUtils.logError(logger, e);
 			e.printStackTrace();

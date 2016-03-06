@@ -38,7 +38,7 @@ public class AudioFile {
 			this.artist = id3.getArtist();
 		}
 		String genre = null;
-		if (id3.getGenre()!= -1) {
+		if (id3.getGenre() != -1) {
 			genre = ID3v1Genres.GENRES[id3.getGenre()];
 		}
 		logger.debug("GENRE={}", genre);
@@ -94,7 +94,7 @@ public class AudioFile {
 	public UUID getTrackId() {
 		return trackId;
 	}
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

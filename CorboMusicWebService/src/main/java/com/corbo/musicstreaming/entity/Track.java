@@ -15,13 +15,13 @@ public class Track {
 
 	@Column(value = "name")
 	private String trackName;
-	
+
 	@Column(value = "album_id")
 	private UUID albumId;
 
 	@Column(value = "album_name")
 	private String albumName;
-	
+
 	@Column(value = "artist_id")
 	private UUID artistId;
 

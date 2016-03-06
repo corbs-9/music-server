@@ -118,7 +118,7 @@ public class Tasks {
 		String logDebugId = CLASS_NAME + " in saveAlbum";
 		logger.trace("{} Method starts", logDebugId);
 		Album album = new Album();
-		album.setAlbumId(AppUtils.generateUuidFromString(af.getArtist()+af.getAlbum()));
+		album.setAlbumId(AppUtils.generateUuidFromString(af.getArtist() + af.getAlbum()));
 		album.setAlbumName(AppUtils.formatTextStringForCassandra(af.getAlbum()));
 		album.setArtistName(AppUtils.formatTextStringForCassandra(af.getArtist()));
 		logger.trace("{} Album to save: {}", logDebugId, album.toString());
@@ -135,7 +135,7 @@ public class Tasks {
 		String logDebugId = CLASS_NAME + " in saveTrack";
 		logger.trace("{} Method starts", logDebugId);
 		Track track = new Track();
-		track.setTrackId(AppUtils.generateUuidFromString(af.getArtist()+af.getAlbum()+af.getTrack()));
+		track.setTrackId(AppUtils.generateUuidFromString(af.getArtist() + af.getAlbum() + af.getTrack()));
 		track.setAlbumName(AppUtils.formatTextStringForCassandra(af.getAlbum()));
 		track.setAlbumId(af.getAlbumId());
 		track.setArtistName(AppUtils.formatTextStringForCassandra(af.getArtist()));
