@@ -63,22 +63,20 @@ public class Tasks {
 		AudioList audioList = null;
 		if (writeLock.tryLock()) {
 			try {
-				directory = new Directory("/Volumes/Data/Corbisiero/Music/");
+				directory = new Directory("/Users/c7652683/music/iTunes/iTunes Media/Music");
 				audioList = new AudioList(directory);
 				audioList.getFileList().parallelStream().forEach(file -> {
 					try {
-						// logger.trace("{} Processing the following file: {}",
-						// logDebugId, file);
 						Track track = trackRepository.findByFileLocation(file);
 						if (track == null) {
 							logger.trace("The track does not exist. Let's create it. File={};", file);
 							try {
 								AudioFile af = new AudioFile(file);
 								logger.trace(af.toString());
-								if (artistRepository.findByName(AppUtils.formatTextStringForCassandra(af.getArtist())).isEmpty()) {
+								if (artistRepository.findById(af.getArtistId()).isEmpty()) {
 									saveArtist(af);
 								}
-								if (albumRepository.findByName(AppUtils.formatTextStringForCassandra(af.getAlbum())).isEmpty()) {
+								if (albumRepository.findById(af.getAlbumId()).isEmpty()) {
 									saveAlbum(af);
 								}
 								saveTrack(af);
@@ -104,7 +102,7 @@ public class Tasks {
 		logger.trace("{} Method starts", logDebugId);
 		Artist artist = new Artist();
 		artist.setArtistName(AppUtils.formatTextStringForCassandra(af.getArtist()));
-		artist.setArtistId(AppUtils.generateUuid());
+		artist.setArtistId(AppUtils.generateUuidFromString(af.getArtist()));
 		artist.setFirstLetter(AppUtils.getFirstLetterFromString(af.getArtist()));
 		logger.trace("{} Artist to save: {}", logDebugId, artist.toString());
 		try {
@@ -120,7 +118,7 @@ public class Tasks {
 		String logDebugId = CLASS_NAME + " in saveAlbum";
 		logger.trace("{} Method starts", logDebugId);
 		Album album = new Album();
-		album.setAlbumId(AppUtils.generateUuid());
+		album.setAlbumId(AppUtils.generateUuidFromString(af.getArtist()+af.getAlbum()));
 		album.setAlbumName(AppUtils.formatTextStringForCassandra(af.getAlbum()));
 		album.setArtistName(AppUtils.formatTextStringForCassandra(af.getArtist()));
 		logger.trace("{} Album to save: {}", logDebugId, album.toString());
@@ -137,12 +135,13 @@ public class Tasks {
 		String logDebugId = CLASS_NAME + " in saveTrack";
 		logger.trace("{} Method starts", logDebugId);
 		Track track = new Track();
-		track.setTrackId(AppUtils.generateUuid());
+		track.setTrackId(AppUtils.generateUuidFromString(af.getArtist()+af.getAlbum()+af.getTrack()));
 		track.setAlbumName(AppUtils.formatTextStringForCassandra(af.getAlbum()));
+		track.setAlbumId(af.getAlbumId());
 		track.setArtistName(AppUtils.formatTextStringForCassandra(af.getArtist()));
-		track.setDuration(String.valueOf((Math.round(af.getDurationInMillis())) / 1000));
+		track.setArtistId(af.getArtistId());
 		track.setFilePath(af.getFullFilePath());
-		track.setTrackName(af.getTrackName());
+		track.setTrackName(af.getTrack());
 		track.setTrackNumber(af.getTrackNumber());
 		logger.trace("{} Track to save: {}", logDebugId, track.toString());
 		try {

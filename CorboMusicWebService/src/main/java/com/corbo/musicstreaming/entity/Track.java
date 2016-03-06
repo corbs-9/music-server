@@ -15,15 +15,18 @@ public class Track {
 
 	@Column(value = "name")
 	private String trackName;
+	
+	@Column(value = "album_id")
+	private UUID albumId;
 
 	@Column(value = "album_name")
 	private String albumName;
+	
+	@Column(value = "artist_id")
+	private UUID artistId;
 
 	@Column(value = "artist_name")
 	private String artistName;
-
-	@Column(value = "duration")
-	private String duration;
 
 	@Column(value = "number")
 	private String trackNumber;
@@ -95,21 +98,6 @@ public class Track {
 	}
 
 	/**
-	 * @return the duration
-	 */
-	public String getDuration() {
-		return duration;
-	}
-
-	/**
-	 * @param duration
-	 *            the duration to set
-	 */
-	public void setDuration(String duration) {
-		this.duration = duration;
-	}
-
-	/**
 	 * @return the trackNumber
 	 */
 	public String getTrackNumber() {
@@ -157,6 +145,22 @@ public class Track {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public UUID getAlbumId() {
+		return albumId;
+	}
+
+	public void setAlbumId(UUID albumId) {
+		this.albumId = albumId;
+	}
+
+	public UUID getArtistId() {
+		return artistId;
+	}
+
+	public void setArtistId(UUID artistId) {
+		this.artistId = artistId;
 	}
 
 }

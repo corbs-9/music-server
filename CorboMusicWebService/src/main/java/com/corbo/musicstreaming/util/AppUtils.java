@@ -2,18 +2,22 @@ package com.corbo.musicstreaming.util;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.WordUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 
 public class AppUtils {
 
 	public static void logError(Logger logger, Exception e) {
-		logger.error("Exception: {}", ExceptionUtils.getFullStackTrace(e));
+		logger.error("Exception: {}", ExceptionUtils.getStackTrace(e));
 	}
 
 	public static UUID generateUuid() {
 		return UUID.randomUUID();
+	}
+	
+	public static UUID generateUuidFromString(String string) {
+		return UUID.nameUUIDFromBytes(string.getBytes());
 	}
 	
 	public static String formatTextStringForCassandra(String text) {

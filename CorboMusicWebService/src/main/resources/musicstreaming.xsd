@@ -59,7 +59,6 @@
 			<xs:element name="trackId" type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="albumName" type="xs:string" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="artistName" type="xs:string" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="durationInSeconds" type="xs:int" minOccurs="1" maxOccurs="1"/>
 			<xs:element name="trackNumber" type="xs:string" minOccurs="1" maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>

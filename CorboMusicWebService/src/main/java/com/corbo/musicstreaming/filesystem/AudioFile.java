@@ -1,78 +1,66 @@
 package com.corbo.musicstreaming.filesystem;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.UUID;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang3.text.WordUtils;
-import org.apache.tika.exception.TikaException;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.apache.tika.parser.mp3.Mp3Parser;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
+
+import com.corbo.musicstreaming.util.AppUtils;
+import com.mpatric.mp3agic.ID3v1;
+import com.mpatric.mp3agic.ID3v1Genres;
+import com.mpatric.mp3agic.ID3v24Tag;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
+import com.musicbrainz.mp3.tagger.Tools.Tools;
 
 public class AudioFile {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public AudioFile(String fullFilePath) throws IOException, SAXException, TikaException {
-		InputStream input = null;
+	public AudioFile(String fullFilePath)
+			throws IOException, SAXException, UnsupportedTagException, InvalidDataException {
+		logger.debug("Dealing with file: {}", fullFilePath);
+		File file = new File(fullFilePath);
+		Mp3File mp3File = new Mp3File(file);
+		ID3v1 id3 = Tools.getId3v1Tag(mp3File);
 		try {
-			input = new FileInputStream(new File(fullFilePath));
-			ContentHandler handler = (ContentHandler) new DefaultHandler();
-			Metadata metadata = new Metadata();
-			Parser parser = new Mp3Parser();
-			ParseContext parseCtx = new ParseContext();
-			parser.parse(input, handler, metadata, parseCtx);
-			this.fullFilePath = fullFilePath;
-			trackName = metadata.get("title") != null ? WordUtils.capitalize(metadata.get("title").toLowerCase())
-					: "UNKNOWN_TRACK_NAME";
-			album = metadata.get("xmpDM:album") != null
-					? WordUtils.capitalize(metadata.get("xmpDM:album").toLowerCase()) : "UNKNOWN_ALBUM_MAME";
-			artist = metadata.get("xmpDM:albumArtist");
-			trackNumber = metadata.get("xmpDM:trackNumber") != null ? metadata.get("xmpDM:trackNumber")
-					: "NO_TRACK_NUMBER";
-			durationInMillis = Float.parseFloat(metadata.get("xmpDM:duration"));
-			if (trackNumber.contains("/")) {
-				trackNumber = trackNumber.substring(0, trackNumber.indexOf("/"));
+			ID3v24Tag id3v24 = (ID3v24Tag) id3;
+			this.artist = id3v24.getAlbumArtist();
+			if (this.artist == null) {
+				this.artist = id3.getArtist();
 			}
-
-			// List all metadata
-			String[] metadataNames = metadata.names();
-
-			for (String name : metadataNames) {
-				System.out.println(name + ": " + metadata.get(name));
-			}
-//			 System.out.println(metadata.get("title"));
-//			 System.out.println(metadata.get("dc:title"));
-//			 System.out.println(metadata.get("xmpDM:artist"));
-//			 System.out.println(metadata.get("xmpDM:albumArtist"));
-//			 System.out.println(metadata.get("Author"));
-//			 System.out.println(metadata.get("xmpDM:album"));
-
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (Exception e) {
-
-				}
-			}
+		} catch (ClassCastException e) {
+			this.artist = id3.getArtist();
 		}
+		String genre = null;
+		if (id3.getGenre()!= -1) {
+			genre = ID3v1Genres.GENRES[id3.getGenre()];
+		}
+		logger.debug("GENRE={}", genre);
+		this.album = id3.getAlbum();
+		this.track = id3.getTitle();
+		this.fullFilePath = fullFilePath;
+		this.trackNumber = id3.getTrack();
+		if (trackNumber.contains("/")) {
+			this.trackNumber = this.trackNumber.substring(0, this.trackNumber.indexOf("/"));
+		}
+		this.artistId = AppUtils.generateUuidFromString(this.artist);
+		this.albumId = AppUtils.generateUuidFromString(this.artist + this.album);
+		this.trackId = AppUtils.generateUuidFromString(this.artist + this.album + this.track);
 	}
 
 	private String artist;
+	private UUID artistId;
 	private String album;
-	private String trackName;
+	private UUID albumId;
+	private String track;
+	private UUID trackId;
 	private String trackNumber;
-	private float durationInMillis;
 	private String fullFilePath;
 
 	public String getArtist() {
@@ -83,25 +71,32 @@ public class AudioFile {
 		return album;
 	}
 
-	public String getTrackName() {
-		return trackName;
+	public String getTrack() {
+		return track;
 	}
 
 	public String getTrackNumber() {
 		return this.trackNumber;
 	}
 
-	public float getDurationInMillis() {
-		return durationInMillis;
-	}
-
 	public String getFullFilePath() {
 		return this.fullFilePath;
 	}
 
+	public UUID getArtistId() {
+		return artistId;
+	}
+
+	public UUID getAlbumId() {
+		return albumId;
+	}
+
+	public UUID getTrackId() {
+		return trackId;
+	}
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
-
 }

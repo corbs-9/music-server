@@ -5,6 +5,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.corbo.musicstreaming.entity.Artist;
 import com.corbo.musicstreaming.entity.Track;
 import com.corbo.musicstreaming.model.jaxb.AlbumCplxType;
@@ -16,12 +20,14 @@ import com.corbo.musicstreaming.model.jaxb.TrackCplxType;
 import com.corbo.musicstreaming.model.jaxb.TrackList;
 
 public class ObjectFactory {
+	
+	private static Logger logger = LoggerFactory.getLogger(ObjectFactory.class);
 
 	public static MusicList createMusicListFromTrackList(Collection<Track> trackCollection) {
 		MusicList musicList = new MusicList();
 		ArtistList artistList = new ArtistList();
 		Map<String, ArrayList<String>> artistToAlbumMap = new HashMap<String, ArrayList<String>>();
-		Map<String, ArrayList<TrackCplxType>> albumToTrackMap = new HashMap<String, ArrayList<TrackCplxType>>();
+		Map<String, ArrayList<Track>> albumToTrackMap = new HashMap<String, ArrayList<Track>>();
 		trackCollection.forEach(t -> {
 			if (!artistToAlbumMap.containsKey(t.getArtistName())) {
 				artistToAlbumMap.put(t.getArtistName(), new ArrayList<String>());
@@ -30,16 +36,9 @@ public class ObjectFactory {
 				artistToAlbumMap.get(t.getArtistName()).add(t.getAlbumName());
 			}
 			if (!albumToTrackMap.containsKey(t.getAlbumName())) {
-				albumToTrackMap.put(t.getAlbumName(), new ArrayList<TrackCplxType>());
+				albumToTrackMap.put(t.getAlbumName(), new ArrayList<Track>());
 			}
-			TrackCplxType trackCplx = new TrackCplxType();
-			trackCplx.setTrackId(t.getTrackId().toString());
-			trackCplx.setAlbumName(t.getAlbumName());
-			trackCplx.setArtistName(t.getArtistName());
-			trackCplx.setTrackName(t.getTrackName());
-			trackCplx.setTrackNumber(t.getTrackNumber());
-			trackCplx.setDurationInSeconds(Integer.parseInt(t.getDuration()));
-			albumToTrackMap.get(t.getAlbumName()).add(trackCplx);
+			albumToTrackMap.get(t.getAlbumName()).add(t);
 		});
 		artistToAlbumMap.forEach((artist, albumList) -> {
 			ArtistCplxType artistCplx = new ArtistCplxType();
@@ -49,7 +48,18 @@ public class ObjectFactory {
 				AlbumCplxType albumCplx = new AlbumCplxType();
 				albumCplx.setAlbumName(album);
 				TrackList trackList = new TrackList();
-				albumToTrackMap.get(album).forEach(track -> trackList.getTrack().add(track));
+				albumToTrackMap.get(album).forEach(track -> { 
+					logger.debug("Track={}", ToStringBuilder.reflectionToString(track));
+					artistCplx.setArtistId(track.getArtistId().toString());
+					albumCplx.setAlbumId(track.getAlbumId().toString());
+					TrackCplxType trackCplx = new TrackCplxType();
+					trackCplx.setTrackId(track.getTrackId().toString());
+					trackCplx.setAlbumName(track.getAlbumName());
+					trackCplx.setArtistName(track.getArtistName());
+					trackCplx.setTrackName(track.getTrackName());
+					trackCplx.setTrackNumber(track.getTrackNumber());
+					trackList.getTrack().add(trackCplx);
+				});
 				albumCplx.setTrackList(trackList);
 				albumList2.getAlbum().add(albumCplx);
 			});

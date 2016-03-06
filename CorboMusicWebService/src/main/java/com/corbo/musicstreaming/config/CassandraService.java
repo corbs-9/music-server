@@ -35,7 +35,7 @@ public class CassandraService {
 	private String createAlbumTableCql = "CREATE TABLE IF NOT EXISTS music.album ( id uuid, name text, "
 			+ "artist_name text, PRIMARY KEY (id) )";
 	private String createTrackTableCql = "CREATE TABLE IF NOT EXISTS music.track "
-			+ "( id uuid, name text, album_name text, artist_name text, duration text, location text, number text, year text, "
+			+ "( id uuid, name text, album_id uuid, album_name text, artist_id uuid, artist_name text, location text, number text, year text, "
 			+ "PRIMARY KEY (id) )";
 	private String indexArtistFirstLetter = "CREATE INDEX IF NOT EXISTS artist_first_letter ON music.artist (first_letter)";
 	private String indexArtistName = "CREATE INDEX IF NOT EXISTS artist_name ON music.artist (name)";
