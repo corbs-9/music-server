@@ -28,7 +28,7 @@ public class SearchResource {
 
 	
 	@ApiOperation(value = "/artist/{artist}", nickname = "searchForArtist")
-	@RequestMapping(value = "/artist/{artist}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/artist/{artist}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "artist", allowMultiple = false, value = "The artist name to search", required = true, dataType = "string", paramType = "path", defaultValue = "null") })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = MusicList.class),
@@ -40,7 +40,7 @@ public class SearchResource {
 	}
 	
 	@ApiOperation(value = "/artist/first_letter/{first_letter}", nickname = "searchForArtistsByFirstLetter")
-	@RequestMapping(value = "/artist/first_letter/{first_letter}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/artist/first_letter/{first_letter}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "artist", allowMultiple = false, value = "The first letter of the artist", required = true, dataType = "string", paramType = "path", defaultValue = "null") })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = MusicList.class),

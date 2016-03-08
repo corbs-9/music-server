@@ -36,22 +36,13 @@ public class Application {
 	}
 
 	@Bean
-    public Docket musicApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .groupName("musicServer")
-                .select()
-                .build();
-    }
-     
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("Corbo Music Server")
-                .description("A RESTful Music Web Server")
-                .contact("Corbo")
-                .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/corbs9/music-server/blob/v0.1/LICENSE")
-                .version("2.0")
-                .build();
-    }
+	public Docket musicApi() {
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).groupName("musicServer").select().build();
+	}
+
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder().title("Corbo Music Server").description("A RESTful Music Web Server")
+				.contact("Corbo").license("Apache License Version 2.0")
+				.licenseUrl("https://github.com/corbs9/music-server/blob/v0.1/LICENSE").version("2.0").build();
+	}
 }

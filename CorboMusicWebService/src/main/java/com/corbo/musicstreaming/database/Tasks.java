@@ -58,12 +58,12 @@ public class Tasks {
 	@Async
 	public void synchroniseDataStore() {
 		String logDebugId = CLASS_NAME + " in synchroniseDataStore()";
-		logger.debug("{} Method starts.", logDebugId);
+		logger.info("{} Method starts.", logDebugId);
 		Directory directory = null;
 		AudioList audioList = null;
 		if (writeLock.tryLock()) {
 			try {
-				directory = new Directory("/Users/c7652683/music/iTunes/iTunes Media/Music");
+				directory = new Directory("/media/corbs/EVO/Music");
 				audioList = new AudioList(directory);
 				audioList.getFileList().parallelStream().forEach(file -> {
 					try {
@@ -81,6 +81,7 @@ public class Tasks {
 								}
 								saveTrack(af);
 							} catch (Exception e) {
+								logger.error("{} There was an error whilst processing the following file: {}", logDebugId, file);
 								AppUtils.logError(logger, e);
 							}
 						}
@@ -89,7 +90,7 @@ public class Tasks {
 					}
 				});
 			} finally {
-				logger.trace("{} Unlocking the write lock for future use.", logDebugId);
+				logger.info("{} Unlocking the write lock for future use.", logDebugId);
 				writeLock.unlock();
 			}
 		} else {

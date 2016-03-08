@@ -46,7 +46,7 @@ public class AudioFile {
 		this.track = id3.getTitle();
 		this.fullFilePath = fullFilePath;
 		this.trackNumber = id3.getTrack();
-		if (trackNumber.contains("/")) {
+		if (trackNumber != null && trackNumber.contains("/")) {
 			this.trackNumber = this.trackNumber.substring(0, this.trackNumber.indexOf("/"));
 		}
 		this.artistId = AppUtils.generateUuidFromString(this.artist);
