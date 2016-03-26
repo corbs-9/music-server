@@ -3,7 +3,6 @@ package com.corbo.musicstreaming.config;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,7 +22,7 @@ public class CassandraService {
 
 	private final String cassandraConfigDirectoryLocation = "/.musicserver/cassandra/conf/";
 	private final String cassandraConfigFileName = "cassandra.yaml";
-	private final String userHomeDir = "file://" + System.getProperty("user.home");
+	private final String userHomeDir = System.getProperty("user.home");
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final String CLASS_NAME = this.getClass().getName();
@@ -65,27 +64,27 @@ public class CassandraService {
 		logger.debug("{} Creating the table schema if not present", logDebugId);
 		createTableSchema();
 	}
-
+	
 	private void setCassandraProperties() {
 		InputStream inputStream = null;
 		Path path = null;
 		File file = null;
 		try {
 			inputStream = ClassLoader.getSystemResourceAsStream("cassandra.yaml");
-			path = Paths.get(new URI(userHomeDir + cassandraConfigDirectoryLocation));
+			path = Paths.get(userHomeDir + cassandraConfigDirectoryLocation);
 			file = path.toFile();
 			if (!file.exists()) {
 				file.mkdirs();
 			}
-			path = Paths.get(new URI(userHomeDir + cassandraConfigDirectoryLocation + cassandraConfigFileName));
+			path = Paths.get(userHomeDir + cassandraConfigDirectoryLocation + cassandraConfigFileName);
 			file = path.toFile();
 			if (!file.exists()) {
 				Files.copy(inputStream, path);
 			}
 			String content = new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
-			content = content.replaceAll("user.home", System.getProperty("user.home"));
+			content = content.replaceAll("user.home", Paths.get(userHomeDir).toFile().toString().replace("\\", "/"));
 			Files.write(path, content.getBytes(StandardCharsets.UTF_8));
-			System.setProperty("cassandra.config", "file://"+file.getAbsolutePath());
+			System.setProperty("cassandra.config", path.toUri().toString());
 		} catch (Exception e) {
 			// AppUtils.logError(logger, e);
 			e.printStackTrace();
@@ -99,7 +98,6 @@ public class CassandraService {
 				}
 			}
 		}
-
 	}
 
 	private void startCassandra() {

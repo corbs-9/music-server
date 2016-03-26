@@ -63,7 +63,7 @@ public class Tasks {
 		AudioList audioList = null;
 		if (writeLock.tryLock()) {
 			try {
-				directory = new Directory("/media/corbs/EVO/Music");
+				directory = new Directory("D:/Music");
 				audioList = new AudioList(directory);
 				audioList.getFileList().parallelStream().forEach(file -> {
 					try {
